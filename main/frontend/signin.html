@@ -2,20 +2,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo-list: Home</title>
+    <title>Todo-list: SignIn</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/singin.css">
 </head>
 <body>
     <header>
-        <img src="static/logo.jpg" class="header-logo">
+        <a href="/"><img src="static/logo.jpg" class="header-logo"></a>
     </header>
     <main>
         <div>
             <h1>Iscriviti</h1>
             <input type="text" placeholder="Username" id="username-input">
-            <input type="text" placeholder="Email" id="email-input">
+            <input type="email" placeholder="Email" id="email-input">
             <input type="text" placeholder="Name" id="name-input">
             <input type="text" placeholder="Surname" id="surname-input">
             <div class="password">
@@ -27,7 +27,7 @@
             </div>
             <div class="button-error">
                 <button type="submit" onclick="signin()">Iscriviti</button>
-                <p id="errormessage">Username e Password non validi!</p>
+                <p id="errormessage"></p>
             </div>
             <p>Hai gia un account? <a href="/login">accedi</a></p>
             
@@ -36,4 +36,5 @@
     <footer></footer>
 </body>
 <script src="js/login.js"></script>
+<script type="module" src="js/redirectIfLogged.js"></script>
 </html>

@@ -6,7 +6,8 @@ const path =require("path");
 const cors=require("cors");
 const fs = require("fs").promises;
 const db = require("./db.js")
-const bcrypt=require("bcrypt")
+const bcrypt=require("bcrypt");
+const { ok } = require("assert");
 
 const PORT=process.env.PORT || 3000
 
@@ -76,12 +77,12 @@ app.post("/api/login", async (req,res)=>{
   const password=req.body.password
 
   if (!username || !password){
-    return res.status(400).json({ok: false})
+    return res.json({ok: false})
   }
   let userdata= await db.getUserLoginData(username);
 
   if (!userdata){
-    return res.status(401).json({ok: false})
+    return res.json({ok: false})
   }
 
   if (await checkPassword(password, userdata.password)){
@@ -95,7 +96,7 @@ app.post("/api/login", async (req,res)=>{
     res.json({ ok: true });
 
   }else{
-    return res.status(401).json({ok: false})
+    return res.json({ok: false})
   }
 });
 
@@ -104,22 +105,30 @@ app.post("/api/signin", async (req,res)=>{
   const {username, name, surname, email, password}=req.body
 
   if (!username || !password || !name || !surname || !email){
-    return res.status(400).json({ok: false, err:"Tutti i campi sono obbligatori"})
+    return res.json({ok: false, err:"Tutti i campi sono obbligatori"})
   }
   
-//da qua va implementato signin
+  const dbRes=await db.addUser(username, email, name, surname, await hashPassword(password))
 
-  if (await checkPassword(password, userdata.password)){
-    const token = jwt.sign({ id: userdata.id }, process.env.JWT_KEY, { expiresIn: '7d' });
-   
+  if (dbRes=="tooLong"){
+    return res.json({ok:false, err:"Ci sono campi troppo lunghi!"})
+  }else if (dbRes=="notUnique"){
+    return res.json({ok:false, err:"Username o eMail gia usati da un altro utente!"})
+  }else if (dbRes=="unvalidChar"){
+    return res.json({ok:false, err:"Stai usando caratteri non consentiti!"})
+  }else if(dbRes!=="success"){
+    return res.json({ok:false, err:"errore sconosciuto"})
+  }
+  if (dbRes=="success"){
+
+    const userdata=await db.getUserLoginData(username)
+    const token = jwt.sign({id:userdata.id}, process.env.JWT_KEY, { expiresIn: '7d' });
+    
     res.cookie('token', token, {
-      httpOnly: true,   
-      secure: false,                //! DA CAMBIARE QUANDO METTI HTTPS
-      maxAge: 1000*60*60*24*7   
-    });
-    res.json({ ok: true });
-
-  }else{
-    return res.status(401).json({ok: false})
+        httpOnly: true,   
+        secure: false,                //! DA CAMBIARE QUANDO METTI HTTPS
+        maxAge: 1000*60*60*24*7   
+      });
+    return res.json({ ok: true });
   }
 });

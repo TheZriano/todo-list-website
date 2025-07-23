@@ -1,8 +1,4 @@
-import { userLogged } from "./checkusertoken.js";
 
-if (userLogged){
-    window.location.href="/"
-}
 
 function togglepasswordview(){
     let passwordInput=document.getElementById("password-input");
@@ -38,9 +34,6 @@ function login(){
             window.location.href="/"
         }
         })
-        .catch(err => {
-        console.error('Errore nella richiesta:', err);
-        });
 }
 
 function signin(){
@@ -70,7 +63,4 @@ function signin(){
             window.location.href="/"
         }
         })
-        .catch(err => {
-        console.error('Errore nella richiesta:', err);
-        });
 }

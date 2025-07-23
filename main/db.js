@@ -10,17 +10,27 @@ async function getUserLoginData(username) {
     }
 }
 
-async function addUser(id) {   //da implementare adduser con controllo per username e email gia usate
+async function addUser(username,email,name,surname,hashedPassword) {   //da implementare adduser con controllo per username e email gia usate
   try {
-    const res = await db.query("SELECT * FROM users WHERE id = $1", [id]);
-    const user = res.rows[0];
-    return user;
+    await db.query(
+      "INSERT INTO users (username, name, surname, email, password) VALUES ($1, $2, $3, $4, $5)",
+      [username, name, surname, email, hashedPassword]
+    );
+    return "success"
   } catch (err) {
-    console.error('Errore durante la query:', err);
+    if (err.code==="23505"){
+      return "notUnique"
+    }else if (err.code==="22021"){
+      return "unvalidChar"
+    }else if (err.code==="22001"){
+      return "tooLong"
+    }
+    
   }
 }
 
 
 module.exports = {
- getUserLoginData
+ getUserLoginData,
+ addUser
 };

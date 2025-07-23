@@ -13,6 +13,9 @@
     font-family: roboto;
 }
 
+button:hover{ 
+    cursor: pointer;
+}
 a{
     color: white;
 }
