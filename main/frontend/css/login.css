@@ -1,0 +1,84 @@
+main div{
+    border: 3px solid var(--color2);
+    margin: 100px auto;
+    width: min(400px, 80%);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 3px;
+}
+
+button:hover{
+    cursor: pointer;
+    
+}
+button{
+    text-align: center;
+    background-color: var(--color2);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 3px;
+    font-weight: 600;
+    transition: 200ms ease-in-out;
+}
+#visibility-button{
+    height: 40px;
+    margin: 0;
+    border-radius: 0 3px 3px 0;
+
+}
+
+.password{
+    border: none;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    justify-content: space-between;
+    align-items: center;
+    gap:0;
+}
+input{
+    background-color: var(--color2);
+    height: 40px;
+    font-size: medium;
+    padding: 10px;
+    border-radius: 3px 0px 0 3px;
+    width: 100%;
+}
+
+#username-input{
+    border-radius: 3px;
+}
+
+#visibility-on{
+    display: none;
+}
+p{
+    color: white;
+}
+
+h1{
+    color: white;
+    font-size: xx-large;
+}
+.button-error{
+    border:none;
+    margin:0;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+#errorMessage{
+    color: var(--color3);
+    text-align: center;
+    width: 100%;
+    display: none;
+}
